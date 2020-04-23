@@ -1,0 +1,20 @@
+server:
+  port: 8026
+
+spring:
+  mvc:
+    servlet:
+      path: /cykb-es-content
+  elasticsearch:
+    jest:
+      uris: http://192.168.0.110:9200
+      connection-timeout: 30000
+      multi-threaded: true
+      read-timeout: 7200
+
+logging:
+  level:
+    root: warn
+    com: info
+  file:
+    name: logs/cykb-es-time.log
