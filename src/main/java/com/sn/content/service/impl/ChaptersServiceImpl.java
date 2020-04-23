@@ -75,26 +75,4 @@ public class ChaptersServiceImpl implements ChaptersService {
         }
 
     }
-
-    private List<Map<String, Object>> findByNovelsId(String novelsId) {
-        ElasticSearch elasticSearch = ElasticSearch.builder().index("chapters_index").type("chapters").sort("updateTime").order("asc").build();
-        Map<String, Object> termParams = new HashMap<String, Object>(2) {{
-            put("novelsId", novelsId);
-        }};
-        List<SearchResult.Hit<Object, Void>> src = new ArrayList<>();
-        try {
-            src = elasticSearchDao.mustTermRangeQuery(elasticSearch, termParams, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("findByNovelsId-fail: {}", e.getMessage());
-        }
-        List<Map<String, Object>> target = new ArrayList<>();
-        for (SearchResult.Hit<Object, Void> objectVoidHit : src) {
-            Map<String, Object> temp = new HashMap<>(2);
-            temp.put("chapter", ((Map) objectVoidHit.source).get("chapter"));
-            temp.put("updateTime", ((Map) objectVoidHit.source).get("updateTime"));
-            target.add(temp);
-        }
-        return target;
-    }
 }
